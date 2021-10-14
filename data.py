@@ -2,6 +2,7 @@ import time
 import numpy as np
 import torchtext
 from torchtext import data
+import json
 
 from utils import tensor2text
 
@@ -65,6 +66,31 @@ def load_dataset(config, train_pos='train.pos', train_neg='train.neg',
     
     return train_iters, dev_iters, test_iters, vocab
 
+def jsonl_reader(filename, flag=True):
+
+    with open(filename) as f:
+        records = f.readlines()
+
+    if flag:
+
+        samples = list()
+
+        for record in records:
+            jdata = json.loads(record)
+            samples.append(str(jdata["text"]))
+
+        return samples
+
+    else:
+        for record in records:
+            jdata = json.loads(record)
+            print(jdata.keys())
+
+def write_file(filename, text_list):
+
+    with open(filename, 'w') as f:
+        for text in text_list:
+            f.write(text + '\n')
 
 if __name__ == '__main__':
     train_iter, _, _, vocab = load_dataset('../data/yelp/')
