@@ -19,6 +19,10 @@ nontox_train_text_list = jsonl_reader(nontox_train_path)
 tox_train_text_list = jsonl_reader(tox_train_path)
 val_text_list = jsonl_reader(val_path, False)
 
+print(len(nontox_train_text_list))
+print(len(tox_train_text_list))
+print(len(val_text_list))
+
 train_pos_path = 'data/tweet/train.pos'
 train_neg_path = 'data/tweet/train.neg'
 dev_pos_path = 'data/tweet/dev.pos'
