@@ -84,13 +84,17 @@ def jsonl_reader(filename, flag=True):
     else:
         for record in records:
             jdata = json.loads(record)
-            print(jdata.keys())
+            print(jdata["text"])
 
-def write_file(filename, text_list):
+def write_file(filename, text_list, text_processor=None):
 
     with open(filename, 'w') as f:
         for text in text_list:
-            f.write(text + '\n')
+            if text_processor is None:
+                f.write(text + '\n')
+            else:
+                processed_text = " ".join(text_processor.pre_process_doc(text))
+                f.write(processed_text + '\n')
 
 if __name__ == '__main__':
     train_iter, _, _, vocab = load_dataset('../data/yelp/')
