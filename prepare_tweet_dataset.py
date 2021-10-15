@@ -17,7 +17,7 @@ val_path = 'data/tweet/val.jsonl'
 
 nontox_train_text_list = jsonl_reader(nontox_train_path)
 tox_train_text_list = jsonl_reader(tox_train_path)
-val_text_list = jsonl_reader(val_path, False)
+val_text_list = jsonl_reader(val_path)
 
 print(len(nontox_train_text_list))
 print(len(tox_train_text_list))
