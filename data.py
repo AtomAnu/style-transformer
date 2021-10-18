@@ -66,7 +66,7 @@ def load_dataset(config, train_pos='train.pos', train_neg='train.neg',
     
     return train_iters, dev_iters, test_iters, vocab
 
-def jsonl_reader(filename, flag=True):
+def jsonl_reader(filename, flag=True, key='text'):
 
     with open(filename) as f:
         records = f.readlines()
@@ -77,14 +77,14 @@ def jsonl_reader(filename, flag=True):
 
         for record in records:
             jdata = json.loads(record)
-            samples.append(str(jdata["text"]))
+            samples.append(str(jdata[key]))
 
         return samples
 
     else:
         for record in records:
             jdata = json.loads(record)
-            print(jdata["text"])
+            print(jdata[key])
 
 def write_file(filename, text_list, text_processor=None):
 
