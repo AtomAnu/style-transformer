@@ -15,13 +15,13 @@ def get_lengths(tokens, eos_idx):
     lengths = lengths + 1 # +1 for <eos> token
     return lengths
 
-def batch_preprocess(batch, pad_idx, eos_idx, reverse=False, max_length=None):
+def batch_preprocess(config, batch, pad_idx, eos_idx, reverse=False, max_length=None):
 
     batch_pos, batch_neg = batch
 
     if max_length is not None:
-        batch_pos = shorten_sequence(batch_pos, pad_idx, eos_idx, max_length)
-        batch_neg = shorten_sequence(batch_neg, pad_idx, eos_idx, max_length)
+        batch_pos = shorten_sequence(config, batch_pos, pad_idx, eos_idx, max_length)
+        batch_neg = shorten_sequence(config, batch_neg, pad_idx, eos_idx, max_length)
 
     # TODO: remove the print statements
     print('PAD idx: {}'.format(pad_idx))
@@ -52,7 +52,7 @@ def batch_preprocess(batch, pad_idx, eos_idx, reverse=False, max_length=None):
 
     return tokens, lengths, styles
 
-def shorten_sequence(batch, pad_idx, eos_idx, max_length):
+def shorten_sequence(config, batch, pad_idx, eos_idx, max_length):
     """
     This method shortens sequences in the input batch using max_length
 
@@ -70,7 +70,7 @@ def shorten_sequence(batch, pad_idx, eos_idx, max_length):
     shorten = batch[:, :max_length-1]
     tmp = shorten.eq(eos_idx).to(torch.int64).sum(1)
 
-    last_col = torch.tensor([eos_idx] * batch.size(0)) - tmp
+    last_col = torch.tensor([eos_idx] * batch.size(0)).to(config.device) - tmp
 
     return torch.cat([shorten, last_col.unsqueeze(1)], dim=1)
 
@@ -81,7 +81,7 @@ def d_step(config, vocab, model_F, model_D, optimizer_D, batch, temperature):
     vocab_size = len(vocab)
     loss_fn = nn.NLLLoss(reduction='none')
 
-    inp_tokens, inp_lengths, raw_styles = batch_preprocess(batch, pad_idx, eos_idx, max_length=config.max_length)
+    inp_tokens, inp_lengths, raw_styles = batch_preprocess(config, batch, pad_idx, eos_idx, max_length=config.max_length)
     rev_styles = 1 - raw_styles
     batch_size = inp_tokens.size(0)
 
@@ -168,7 +168,7 @@ def f_step(config, vocab, model_F, model_D, optimizer_F, batch, temperature, dro
     vocab_size = len(vocab)
     loss_fn = nn.NLLLoss(reduction='none')
 
-    inp_tokens, inp_lengths, raw_styles = batch_preprocess(batch, pad_idx, eos_idx, max_length=config.max_length)
+    inp_tokens, inp_lengths, raw_styles = batch_preprocess(config, batch, pad_idx, eos_idx, max_length=config.max_length)
     rev_styles = 1 - raw_styles
     batch_size = inp_tokens.size(0)
     token_mask = (inp_tokens != pad_idx).float()
