@@ -11,7 +11,7 @@ Data:
 """
 
 nontox_train_path = 'data/tweet/hateful_founta_filt_nontox/train.jsonl'
-tox_train_path = 'data/tweet/hateful_founta_filt_toxic/train_nort.jsonl'
+tox_train_path = 'data/tweet/hateful_founta_filt_toxic_full/train_nort.jsonl'
 val_path = 'data/tweet/val.jsonl'
 
 nontox_train_text_list = jsonl_reader(nontox_train_path)
