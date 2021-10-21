@@ -31,7 +31,6 @@ def batch_preprocess(batch, pad_idx, eos_idx, reverse=False, max_length=None):
     print('POS Example: {}'.format(batch_pos[0, :]))
     print('NEG Example: {}'.format(batch_neg[0, :]))
 
-
     diff = batch_pos.size(1) - batch_neg.size(1)
     if diff < 0:
         pad = torch.full_like(batch_neg[:, :-diff], pad_idx)
@@ -82,7 +81,7 @@ def d_step(config, vocab, model_F, model_D, optimizer_D, batch, temperature):
     vocab_size = len(vocab)
     loss_fn = nn.NLLLoss(reduction='none')
 
-    inp_tokens, inp_lengths, raw_styles = batch_preprocess(batch, pad_idx, eos_idx, config.max_length)
+    inp_tokens, inp_lengths, raw_styles = batch_preprocess(batch, pad_idx, eos_idx, max_length=config.max_length)
     rev_styles = 1 - raw_styles
     batch_size = inp_tokens.size(0)
 
@@ -169,7 +168,7 @@ def f_step(config, vocab, model_F, model_D, optimizer_F, batch, temperature, dro
     vocab_size = len(vocab)
     loss_fn = nn.NLLLoss(reduction='none')
 
-    inp_tokens, inp_lengths, raw_styles = batch_preprocess(batch, pad_idx, eos_idx, config.max_length)
+    inp_tokens, inp_lengths, raw_styles = batch_preprocess(batch, pad_idx, eos_idx, max_length=config.max_length)
     rev_styles = 1 - raw_styles
     batch_size = inp_tokens.size(0)
     token_mask = (inp_tokens != pad_idx).float()
