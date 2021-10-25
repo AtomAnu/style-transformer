@@ -84,9 +84,16 @@ def jsonl_reader(filename, flag=True, key='text'):
     else:
         for record in records:
             jdata = json.loads(record)
-            print(jdata[key])
+            # print(len(jdata[key]))
+            if len(jdata[key]) == 0:
+                print('Empty line')
+
 
 def write_file(filename, text_list, text_processor=None):
+
+    inc_list = []
+    len_list = []
+    counter = 0
 
     with open(filename, 'w') as f:
         for text in text_list:
@@ -94,7 +101,18 @@ def write_file(filename, text_list, text_processor=None):
                 f.write(text + '\n')
             else:
                 processed_text = " ".join(text_processor.pre_process_doc(text))
-                f.write(processed_text + '\n')
+                processed_text = processed_text.strip()
+                len_list.append(len(processed_text))
+                if len(processed_text) == 0:
+                    print('Empty line found in {} at line {}'.format(filename, text_list.index(text)))
+                    f.write('.' + '\n   ')
+                    counter += 1
+                else:
+                    f.write(processed_text + '\n    ')
+    #
+    # len_list.sort()
+    # print(len_list)
+    # print(counter)
 
 if __name__ == '__main__':
     train_iter, _, _, vocab = load_dataset('../data/yelp/')
