@@ -1,3 +1,4 @@
+import os
 import torch
 import time
 from data import load_dataset
@@ -11,7 +12,9 @@ class Config():
     log_dir = 'runs/exp'
     save_path = './save'
     pretrained_embed_path = './embedding/'
-    device = torch.device('cuda:9' if True and torch.cuda.is_available() else 'cpu')
+    preload_F = './save/Oct21175706/ckpts/30600_F.pth'
+    preload_D = './save/Oct21175706/ckpts/30600_D.pth'
+    device = torch.device('cuda:1' if True and torch.cuda.is_available() else 'cpu')
     discriminator_method = 'Multi' # 'Multi' or 'Cond'
     load_pretrained_embed = False
     min_freq = 3
@@ -53,6 +56,14 @@ def main():
     print('Vocab size:', len(vocab))
     model_F = StyleTransformer(config, vocab).to(config.device)
     model_D = Discriminator(config, vocab).to(config.device)
+
+    if os.path.isfile(config.preload_F):
+        temp = torch.load(config.preload_F)
+        model_F.load_state_dict(temp)
+    if os.path.isfile(config.preload_D):
+        temp = torch.load(config.preload_D)
+        model_D.load_state_dict(temp)
+
     print(config.discriminator_method)
     
     train(config, vocab, model_F, model_D, train_iters, dev_iters, test_iters)
