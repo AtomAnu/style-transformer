@@ -11,12 +11,12 @@ class Config():
     log_dir = 'runs/exp'
     save_path = './save'
     pretrained_embed_path = './embedding/'
-    device = torch.device('cuda:9' if True and torch.cuda.is_available() else 'cpu')
+    device = torch.device('cuda:1' if True and torch.cuda.is_available() else 'cpu')
     discriminator_method = 'Multi' # 'Multi' or 'Cond'
     load_pretrained_embed = False
     min_freq = 3
     # max_length = 16
-    max_length = 30
+    max_length = 80
     embed_size = 256
     d_model = 256
     h = 4
