@@ -16,11 +16,6 @@ val_path = 'data/tweet/val.jsonl'
 
 nontox_train_text_list = jsonl_reader(nontox_train_path)
 tox_train_text_list = jsonl_reader(tox_train_path)
-# val_text_list = jsonl_reader(val_path)
-
-print(len(nontox_train_text_list))
-print(len(tox_train_text_list))
-# print(len(val_text_list))
 
 train_pos_path = 'data/tweet/train.pos'
 train_neg_path = 'data/tweet/train.neg'
@@ -28,8 +23,6 @@ dev_pos_path = 'data/tweet/dev.pos'
 dev_neg_path = 'data/tweet/dev.neg'
 test_pos_path = 'data/tweet/test.pos'
 test_neg_path = 'data/tweet/test.neg'
-
-
 
 text_processor = TextPreProcessor(
     # terms that will be omitted
@@ -57,6 +50,3 @@ write_file(train_pos_path, nontox_train_text_list, text_processor)
 write_file(dev_pos_path, nontox_train_text_list, text_processor)
 write_file(train_neg_path, tox_train_text_list, text_processor)
 write_file(dev_neg_path, tox_train_text_list, text_processor)
-# write_file(test_pos_path, val_text_list, text_processor)
-# write_file(test_neg_path, val_text_list, text_processor)
-

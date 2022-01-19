@@ -14,7 +14,7 @@ class Config():
     pretrained_embed_path = './embedding/'
     preload_F = './save/Oct21175706/ckpts/30600_F.pth'
     preload_D = './save/Oct21175706/ckpts/30600_D.pth'
-    device = torch.device('cuda:1' if True and torch.cuda.is_available() else 'cpu')
+    device = torch.device('cuda' if True and torch.cuda.is_available() else 'cpu')
     discriminator_method = 'Multi' # 'Multi' or 'Cond'
     load_pretrained_embed = False
     min_freq = 3

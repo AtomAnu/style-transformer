@@ -18,9 +18,18 @@ def split_file(original_filename, file1, file2, line_to_split):
             second.write(line)
 
 
-original_filename = 'zli_title.txt'
-file1 = 'tox_to_nontox_title_field.txt'
-file2 = 'nontox_to_tox_title_field.txt'
+original_filename = 'zli_text_nort_new.txt'
+dir_name = 'generated_texts_nort_new/'
+file1 = dir_name + 'tox_to_nontox_text_field_nort.txt'
+file2 = dir_name + 'nontox_to_tox_text_field_nort.txt'
+line_to_split = 516
+
+split_file(original_filename, file1, file2, line_to_split)
+
+original_filename = 'zli_title_nort_new.txt'
+dir_name = 'generated_texts_nort_new/'
+file1 = dir_name + 'tox_to_nontox_title_field_nort.txt'
+file2 = dir_name + 'nontox_to_tox_title_field_nort.txt'
 line_to_split = 516
 
 split_file(original_filename, file1, file2, line_to_split)

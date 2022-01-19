@@ -23,14 +23,6 @@ def batch_preprocess(config, batch, pad_idx, eos_idx, reverse=False, max_length=
         batch_pos = shorten_sequence(config, batch_pos, pad_idx, eos_idx, max_length)
         batch_neg = shorten_sequence(config, batch_neg, pad_idx, eos_idx, max_length)
 
-    # TODO: remove the print statements
-    print('PAD idx: {}'.format(pad_idx))
-    print('EOS idx: {}'.format(eos_idx))
-    print('Batch POS shape: {}'.format(batch_pos.size()))
-    print('Batch NEG shape: {}'.format(batch_neg.size()))
-    print('POS Example: {}'.format(batch_pos[0, :]))
-    print('NEG Example: {}'.format(batch_neg[0, :]))
-
     diff = batch_pos.size(1) - batch_neg.size(1)
     if diff < 0:
         pad = torch.full_like(batch_neg[:, :-diff], pad_idx)

@@ -68,11 +68,10 @@ def load_dataset(config, train_pos='train.pos', train_neg='train.neg',
 
 def jsonl_reader(filename, flag=True, key='text'):
 
-    with open(filename) as f:
+    with open(filename, 'r') as f:
         records = f.readlines()
 
     if flag:
-
         samples = list()
 
         for record in records:
@@ -84,14 +83,12 @@ def jsonl_reader(filename, flag=True, key='text'):
     else:
         for record in records:
             jdata = json.loads(record)
-            # print(len(jdata[key]))
             if len(jdata[key]) == 0:
                 print('Empty line')
 
 
 def write_file(filename, text_list, text_processor=None):
 
-    inc_list = []
     len_list = []
     counter = 0
 
@@ -109,10 +106,6 @@ def write_file(filename, text_list, text_processor=None):
                     counter += 1
                 else:
                     f.write(processed_text + '\n    ')
-    #
-    # len_list.sort()
-    # print(len_list)
-    # print(counter)
 
 if __name__ == '__main__':
     train_iter, _, _, vocab = load_dataset('../data/yelp/')
