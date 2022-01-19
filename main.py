@@ -19,7 +19,7 @@ class Config():
     load_pretrained_embed = False
     min_freq = 3
     # max_length = 16
-    max_length = 30
+    max_length = 80
     embed_size = 256
     d_model = 256
     h = 4
